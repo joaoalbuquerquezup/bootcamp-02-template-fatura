@@ -78,4 +78,8 @@ public class Bill {
     public List<Transaction> getTransactionList() {
         return Collections.unmodifiableList(this.transactionList);
     }
+
+    public Card getCard() {
+        return card;
+    }
 }
