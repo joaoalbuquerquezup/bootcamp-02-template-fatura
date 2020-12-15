@@ -12,17 +12,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import static java.math.BigDecimal.ZERO;
 import static javax.persistence.EnumType.STRING;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"card_id", "billStatus"}))
 public class Bill {
 
     @Id
@@ -82,4 +87,27 @@ public class Bill {
     public Card getCard() {
         return card;
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public LocalDate getInitialDate() {
+        return initialDate;
+    }
+
+    public LocalDate getFinalDate() {
+        return finalDate;
+    }
+
+    public LocalDate getPayDay() {
+        return payDay;
+    }
+
+    public BigDecimal getTotalValue() {
+        return this.transactionList.stream()
+                .map(Transaction::getValue)
+                .reduce(ZERO, BigDecimal::add);
+    }
+
 }

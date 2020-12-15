@@ -74,4 +74,16 @@ public class Transaction {
                 ", referenceId='" + referenceId + '\'' +
                 '}';
     }
+
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public LocalDateTime getMadeAt() {
+        return madeAt;
+    }
 }
