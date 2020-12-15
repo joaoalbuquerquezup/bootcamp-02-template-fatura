@@ -17,6 +17,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -63,8 +64,9 @@ public class GlobalExceptionHandler {
         if (AnnotationUtils.findAnnotation(ex.getClass(), ResponseStatus.class) != null) throw ex;
         if (ex instanceof ResponseStatusException) throw ex;
 
-        Throwable cause = ex.getCause();
-        LOGGER.error(cause.toString() + " | " + cause.getMessage(), cause);
+        Optional<Throwable> optionalCause = Optional.ofNullable(ex.getCause());
+        Throwable throwable = optionalCause.orElse(ex);
+        LOGGER.error(throwable + " | " + throwable.getMessage(), throwable);
 
         Map<String, String> ERROR = Map.of("message", GlobalExceptionHandler.GENERIC_ERROR);
 
